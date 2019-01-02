@@ -1,6 +1,9 @@
 package com.tuitaking.singleReactor.acceptor;
 
+import com.tuitaking.singleReactor.handler.Handler;
+
 import java.io.IOException;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
@@ -9,15 +12,17 @@ import java.nio.channels.SocketChannel;
  */
 public class Acceptor implements Runnable {
     ServerSocketChannel serverSocket;
-    public Acceptor(ServerSocketChannel serverSocket){
+    Selector selector;
+    public Acceptor(Selector sl,ServerSocketChannel serverSocket){
         this.serverSocket=serverSocket;
+        this.selector    =sl;
     }
     @Override
     public void run() {
         try {
-            SocketChannel sk=serverSocket.accept();
-            if(sk!=null){
-
+            SocketChannel sc=serverSocket.accept();
+            if(sc!=null){
+                new Handler(selector,sc);
             }
         } catch (IOException e) {
             e.printStackTrace();
