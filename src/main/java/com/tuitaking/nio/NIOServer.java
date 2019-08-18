@@ -20,10 +20,10 @@ public class NIOServer {
 
             Selector selector=Selector.open();
             ssc.configureBlocking(false);
-            ssc.register(selector,SelectionKey.OP_ACCEPT);
+            ssc.register(selector,SelectionKey.OP_ACCEPT); //注册
 
             for(;;){
-                int key=selector.select(6000);
+                int key=selector.select(6000); //获取可用于accept事件的Channel数
                if( key == 0){
                   System.out.println("for a long time, there is no accept");
                    continue;
